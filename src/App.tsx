@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from "react";
+import GuestPage from "./pages/guest";
+import { Switch, Route } from "react-router-dom";
+import Dashboard from "./pages/dashboard";
+import UserPage from "./pages/userPage";
 
-function App() {
+const App: FC = () => {
+  const initialAuthState = !localStorage.getItem("isAuth")
+    ? false
+    : localStorage.getItem("isAuth") === "0"
+    ? false
+    : true;
+  const [isAuth, setAuth] = React.useState(initialAuthState);
+
+  const login = () => {
+    setAuth(true);
+    localStorage.clear();
+    localStorage.setItem("isAuth", "1");
+  };
+  const logout = () => {
+    setAuth(false);
+    localStorage.clear();
+    localStorage.setItem("isAuth", "0");
+  };
+
+  if (!isAuth) {
+    return <GuestPage login={login} />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/">
+        <Dashboard logout={logout} />
+      </Route>
+      <Route exact path="/my_page">
+        <UserPage />
+      </Route>
+    </Switch>
   );
-}
+};
 
 export default App;
