@@ -10,20 +10,26 @@ import AddPinModal from "../components/postPhoto/AddPinModal";
 import { photos } from "../data/photos";
 import { currentUser } from "../data/currentUser";
 
-type PropsTypes = {
-  logout: () => void;
-};
-
-const Dashboard: FC<PropsTypes> = (props) => {
+const Dashboard: FC<{ logout: () => void }> = ({ logout }) => {
   const classes = useDashboardStyles();
-  const { logout } = props;
 
   const [openAddPin, setOpenAddPin] = React.useState(false);
   const [openUserActionsMenu, setOpenUserActions] = React.useState(false);
+  const history = useHistory();
 
   function toggleOpenUserMenu() {
     setOpenUserActions(!openUserActionsMenu);
   }
+
+  const handleLogout = () => {
+    logout();
+    history.push("/");
+  };
+
+  const handleOpenMyPage = () => {
+    toggleOpenUserMenu();
+    history.push("/my_page");
+  };
 
   return (
     <div className={classes.dashboardWrapper}>
@@ -34,25 +40,25 @@ const Dashboard: FC<PropsTypes> = (props) => {
         photos={photos}
       />
       <Fab
-        component="button"
-        variant="round"
-        size="medium"
+        component='button'
+        variant='round'
+        size='medium'
         className={classes.userButton}
-        id="userButton"
+        id='userButton'
         onClick={() => {
           setOpenUserActions(true);
         }}
       >
         {currentUser.profileImage.trim() !== "" ? (
-          <img src={currentUser.profileImage} alt="user avatar" />
+          <img src={currentUser.profileImage} alt='user avatar' />
         ) : (
           currentUser.username.slice(0, 1).toUpperCase()
         )}
       </Fab>
       <Fab
-        component="button"
-        variant="round"
-        size="medium"
+        component='button'
+        variant='round'
+        size='medium'
         className={classes.addButton}
         onClick={() => setOpenAddPin(true)}
       >
@@ -60,9 +66,10 @@ const Dashboard: FC<PropsTypes> = (props) => {
       </Fab>
       {openUserActionsMenu && (
         <UserActionsMenu
-          logout={logout}
           open={openUserActionsMenu}
           toggleMenu={toggleOpenUserMenu}
+          handleLogout={handleLogout}
+          handleOpenMyPage={handleOpenMyPage}
         />
       )}
       {openAddPin && (
@@ -82,13 +89,12 @@ export default Dashboard;
 const UserActionsMenu: FC<{
   open: boolean;
   toggleMenu: () => void;
-  logout: () => void;
-}> = ({ open, toggleMenu, logout }) => {
-  const history = useHistory();
-
+  handleOpenMyPage: () => void;
+  handleLogout: () => void;
+}> = ({ open, toggleMenu, handleOpenMyPage, handleLogout }) => {
   return (
     <Menu
-      id="user-actions-menu"
+      id='user-actions-menu'
       open={open}
       onClose={toggleMenu}
       anchorEl={document.getElementById("userButton")}
@@ -100,15 +106,8 @@ const UserActionsMenu: FC<{
         },
       }}
     >
-      <MenuItem
-        onClick={() => {
-          toggleMenu();
-          history.push("/my_page");
-        }}
-      >
-        My page
-      </MenuItem>
-      <MenuItem onClick={logout}>Log out</MenuItem>
+      <MenuItem onClick={handleOpenMyPage}>My page</MenuItem>
+      <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
 };

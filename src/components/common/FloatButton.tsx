@@ -11,11 +11,14 @@ type Props = {
 const FloatButton: FC<Props> = ({ color, onClick }) => {
   const [floatUp, setFloatUp] = React.useState(true);
 
-  React.useEffect(() => {
+  const changeFloatState = () => {
     setTimeout(() => {
       setFloatUp(!floatUp);
     }, 600);
-  }, [floatUp]);
+  };
+  React.useEffect(() => {
+    changeFloatState();
+  });
 
   const [floatButton, set] = useSpring(() => ({
     transform: `translateY(0px)`,

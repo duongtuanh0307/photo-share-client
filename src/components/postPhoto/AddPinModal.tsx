@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { PinterestLogo } from "../../icons";
+import DropZone from "../common/DropZone";
 
 type PropsTypes = {
   open: boolean;
@@ -27,43 +28,39 @@ const AddPinModal: FC<PropsTypes> = (props) => {
         <CloseIcon />
       </IconButton>
       <DialogTitle>
-        <Typography align="center">
+        <Typography align='center'>
           <PinterestLogo />
         </Typography>
-        <Typography className={classes.title} variant="h3" align="center">
+        <Typography className={classes.title} variant='h3' align='center'>
           Upload Photo
         </Typography>
       </DialogTitle>
       <DialogContent>
+        <DropZone className={classes.dropZone} />
         <Input
           className={classes.inputBox}
-          placeholder="Title"
-          disableUnderline
-        />
-        <Input
-          className={classes.inputBox}
-          placeholder="Photo Link"
+          placeholder='Title'
           disableUnderline
         />
         <Input
           className={`${classes.inputBox} ${classes.inputBoxMultiline}`}
-          placeholder="Description"
+          placeholder='Description'
           disableUnderline
           multiline
         />
         <div className={classes.buttonsGroup}>
           <Button
             className={classes.button}
-            color="secondary"
-            variant="contained"
+            color='secondary'
+            variant='contained'
             onClick={toggleAddPin}
           >
             Cancel
           </Button>
           <Button
             className={classes.button}
-            color="primary"
-            variant="contained"
+            color='primary'
+            variant='contained'
           >
             Upload
           </Button>
@@ -113,5 +110,11 @@ const useAddPinModalStyles = makeStyles((theme) => ({
     width: 100,
     fontSize: 18,
     margin: "6px 0 6px 8px",
+  },
+  dropZone: {
+    height: 200,
+    widht: "400",
+    backgroundColor: "#ddd",
+    borderRadius: 6,
   },
 }));

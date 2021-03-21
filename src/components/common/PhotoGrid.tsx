@@ -16,7 +16,7 @@ const PhotoGrid: FC<PropsTypes> = (props) => {
   const classes = useStyles();
   const { photos, photoHaveAction, className } = props;
 
-  const trails = useTrail(photos.length, {
+  const trails = useTrail(photos?.length || 1, {
     to: async (next: any) => {
       try {
         await next({
@@ -40,7 +40,7 @@ const PhotoGrid: FC<PropsTypes> = (props) => {
   return (
     <GridList
       cols={!!photoHaveAction ? 4 : 3}
-      cellHeight="auto"
+      cellHeight='auto'
       className={` ${classes.photoGridWrapper} ${className}`}
       spacing={2}
     >
@@ -56,7 +56,7 @@ const PhotoGrid: FC<PropsTypes> = (props) => {
         ))
       ) : (
         <GridListTile cols={4} className={classes.noPhoto}>
-          <Typography variant="h3">No Photo To Display</Typography>
+          <Typography variant='h3'>No Photo To Display</Typography>
         </GridListTile>
       )}
     </GridList>

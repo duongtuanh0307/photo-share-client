@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import theme from "./styles/theme";
+import AuthProvider from "./contexts/AuthContext";
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <AuthProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline>
         <Router>
@@ -14,6 +15,6 @@ ReactDOM.render(
         </Router>
       </CssBaseline>
     </ThemeProvider>
-  </React.StrictMode>,
+  </AuthProvider>,
   document.getElementById("root")
 );

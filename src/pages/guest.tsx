@@ -5,14 +5,9 @@ import LoginModal from "../components/login/LoginModal";
 import SignupModal from "../components/signup/SignUpModal";
 import { useGuestPageStyles } from "../styles/guest";
 
-type PropsTypes = {
-  login: () => void;
-};
-
-const GuestPage: FC<PropsTypes> = (props) => {
+const GuestPage: FC = () => {
   const [openLogin, setOpenLogin] = React.useState(false);
   const [openSignup, setOpenSignup] = React.useState(false);
-  const { login } = props;
   const classes = useGuestPageStyles();
 
   const handleCloseLogin = () => {
@@ -37,18 +32,10 @@ const GuestPage: FC<PropsTypes> = (props) => {
   return (
     <div className={classes.guestPageWrapper}>
       {openLogin && (
-        <LoginModal
-          handleLogin={login}
-          open={openLogin}
-          handleClose={handleCloseLogin}
-        />
+        <LoginModal open={openLogin} handleClose={handleCloseLogin} />
       )}
       {openSignup && (
-        <SignupModal
-          handleLogin={login}
-          open={openSignup}
-          handleClose={handleCloseSignup}
-        />
+        <SignupModal open={openSignup} handleClose={handleCloseSignup} />
       )}
       <Header
         toggleLogin={handleToggleLogin}
